@@ -1,0 +1,53 @@
+.mens-page{padding:32px}
+.mens-title{font-family:var(--font-display);font-size:2rem;color:var(--gold-bright);letter-spacing:.1em}
+
+/* Couverture */
+.mens-coverage-card{background:var(--bg-card);border:1px solid rgba(201,168,76,.2);border-radius:14px;padding:22px 24px;margin-bottom:24px;display:flex;gap:32px;align-items:center;flex-wrap:wrap}
+.mens-cov-left{flex:1;min-width:200px}
+.mens-cov-title{font-size:.7rem;font-weight:700;letter-spacing:.15em;text-transform:uppercase;color:var(--gold-main);margin-bottom:12px}
+.mens-cov-bar-wrap{display:flex;align-items:center;gap:12px;margin-bottom:10px}
+.mens-cov-bar{flex:1;height:8px;background:var(--border-color);border-radius:4px;overflow:hidden}
+.mens-cov-fill{height:100%;background:linear-gradient(90deg,var(--gold-main),var(--gold-bright));border-radius:4px;transition:width .6s ease}
+.mens-cov-pct{font-size:1.1rem;font-weight:800;color:var(--gold-bright);min-width:40px}
+.mens-cov-detail{display:flex;gap:16px}
+.mens-cov-ok{font-size:.78rem;color:#34d399;font-weight:600}
+.mens-cov-nok{font-size:.78rem;color:#ef4444}
+
+/* Distribution tailles */
+.mens-taille-distrib{display:flex;align-items:flex-end;gap:10px;height:80px}
+.mens-dist-item{display:flex;flex-direction:column;align-items:center;gap:4px;width:36px}
+.mens-dist-bar-wrap{flex:1;display:flex;align-items:flex-end;width:100%;height:50px}
+.mens-dist-bar{width:100%;height:50px;background:var(--bg-subtle);border-radius:4px;display:flex;align-items:flex-end;overflow:hidden}
+.mens-dist-fill{width:100%;border-radius:4px;transition:height .6s ease}
+.mens-dist-label{font-size:.62rem;font-weight:700}
+.mens-dist-nb{font-size:.65rem;color:var(--text-muted)}
+
+/* Badge count onglet */
+.mens-badge-count{background:#ef4444;color:var(--text-primary);font-size:.62rem;font-weight:800;padding:1px 6px;border-radius:10px;margin-left:6px}
+
+/* Taille pills */
+.mens-taille-pill{display:inline-block;padding:3px 10px;border-radius:6px;font-size:.72rem;font-weight:800;border:1px solid}
+
+/* Formulaire */
+.mens-form{display:flex;flex-direction:column;gap:0}
+.mens-field{display:flex;flex-direction:column;gap:5px;margin-bottom:8px}
+.mens-unit{font-size:.6rem;color:var(--text-muted);margin-left:6px;font-weight:400}
+.mens-row-2{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.mens-row-3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px}
+.mens-taille-btns{display:flex;flex-wrap:wrap;gap:6px}
+.mens-taille-btn{background:var(--bg-subtle);border:1px solid var(--border-light);color:var(--text-muted);padding:6px 12px;border-radius:6px;font-size:.78rem;font-weight:700;cursor:pointer;transition:all .2s}
+.mens-taille-btn:hover{background:var(--border-color)}
+.mens-imc-banner{background:var(--bg-hover);border:1px solid var(--border-color);border-radius:8px;padding:10px 14px;font-size:.82rem;color:var(--text-secondary);margin:8px 0}
+.mens-imc-banner strong{color:var(--text-primary)}
+
+/* Soldats liste form */
+.mens-soldier-list{max-height:180px;overflow-y:auto;border:1px solid var(--border-color);border-radius:8px;margin-bottom:4px}
+
+/* Manquants */
+.mens-manquants{margin-top:4px}
+.mens-manq-info{font-size:.82rem;color:#f59e0b;background:rgba(245,158,11,.08);border:1px solid rgba(245,158,11,.2);border-radius:8px;padding:10px 16px;margin-bottom:14px}
+.mens-manq-list{display:flex;flex-direction:column;gap:6px}
+.mens-manq-row{display:flex;align-items:center;gap:12px;background:var(--bg-card);border:1px solid var(--border-color);border-radius:10px;padding:12px 16px;transition:border-color .2s}
+.mens-manq-row:hover{border-color:rgba(201,168,76,.3)}
+.mens-manq-btn{background:rgba(201,168,76,.12);border:1px solid var(--gold-dim);color:var(--gold-bright);padding:6px 14px;border-radius:6px;font-size:.75rem;font-weight:600;cursor:pointer;transition:all .2s;white-space:nowrap;margin-left:auto}
+.mens-manq-btn:hover{background:var(--gold-main);color:var(--text-on-gold)}

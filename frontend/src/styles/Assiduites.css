@@ -1,0 +1,110 @@
+.assid-page { padding: 28px 32px; max-width: 1400px; }
+
+/* Header */
+.assid-header { display:flex; align-items:flex-end; justify-content:space-between; margin-bottom:24px; gap:20px; flex-wrap:wrap; }
+.assid-eyebrow { font-family:'Cinzel',serif; font-size:.62rem; letter-spacing:.35em; color:var(--gold-main); text-transform:uppercase; margin-bottom:4px; }
+.assid-title { font-family:'Cinzel',serif; font-size:1.55rem; font-weight:700; color:var(--gold-bright); letter-spacing:.06em; }
+.assid-subtitle { font-size:.7rem; color:var(--text-muted); letter-spacing:.12em; margin-top:3px; }
+.assid-btn-primary { background:linear-gradient(135deg,var(--gold-main),#a8732a); border:none; border-radius:8px; color:#0a0b0d; font-family:'Cinzel',serif; font-size:.7rem; font-weight:700; letter-spacing:.1em; padding:10px 20px; cursor:pointer; transition:all .25s; }
+.assid-btn-primary:hover { transform:translateY(-2px); box-shadow:0 6px 20px rgba(201,148,58,.35); }
+
+/* KPIs */
+.assid-kpis { display:grid; grid-template-columns:repeat(4,1fr); gap:12px; margin-bottom:24px; }
+.assid-kpi { background:var(--bg-card); border:1px solid; border-radius:12px; padding:18px; text-align:center; transition:transform .2s; }
+.assid-kpi:hover { transform:translateY(-3px); }
+.assid-kpi-icon { font-size:1.3rem; margin-bottom:8px; }
+.assid-kpi-val { font-family:'Cinzel',serif; font-size:1.8rem; font-weight:800; line-height:1; margin-bottom:4px; }
+.assid-kpi-label { font-size:.6rem; letter-spacing:.15em; color:var(--text-muted); text-transform:uppercase; }
+
+/* Tabs */
+.assid-tabs { display:flex; gap:4px; background:var(--bg-card); border:1px solid var(--border-color); border-radius:12px; padding:5px; margin-bottom:20px; }
+.assid-tab { background:transparent; border:none; color:var(--text-muted); padding:10px 22px; border-radius:8px; font-size:.8rem; font-weight:600; cursor:pointer; transition:all .2s; }
+.assid-tab:hover { color:var(--text-primary); }
+.assid-tab.active { background:rgba(201,168,76,.12); color:var(--gold-bright); border:1px solid rgba(201,168,76,.25); }
+
+/* Card */
+.assid-card { background:var(--bg-card); border:1px solid var(--border-color); border-radius:14px; padding:22px; }
+.assid-card-title { font-family:'Cinzel',serif; font-size:.65rem; letter-spacing:.22em; color:var(--gold-main); text-transform:uppercase; margin-bottom:18px; display:flex; align-items:center; gap:8px; }
+.assid-card-title::after { content:''; flex:1; height:1px; background:linear-gradient(90deg,rgba(201,168,76,.3),transparent); }
+
+/* Alertes section */
+.assid-alert-section { background:rgba(239,68,68,.06); border:1px solid rgba(239,68,68,.2); border-radius:12px; padding:16px; margin-bottom:20px; }
+.assid-alert-title { font-size:.72rem; font-weight:700; color:#f87171; margin-bottom:12px; }
+.assid-alert-row { display:flex; align-items:center; gap:12px; padding:8px 0; border-bottom:1px solid rgba(239,68,68,.1); }
+.assid-alert-row:last-child { border-bottom:none; }
+
+/* Avatar */
+.assid-ta-avatar { width:34px; height:34px; border-radius:50%; background:linear-gradient(135deg,var(--gold-main),#F0C040); display:flex; align-items:center; justify-content:center; font-size:.65rem; font-weight:800; color:#0a0b0d; flex-shrink:0; overflow:hidden; }
+.assid-ta-avatar img { width:100%; height:100%; object-fit:cover; }
+.assid-ta-name { flex:1; font-size:.78rem; font-weight:600; color:var(--text-primary); }
+.assid-ta-taux { font-family:'Cinzel',serif; font-size:.9rem; font-weight:800; min-width:42px; text-align:right; }
+.assid-ta-bar { flex:1; height:6px; background:var(--border-color); border-radius:3px; overflow:hidden; max-width:100px; }
+.assid-ta-fill { height:100%; border-radius:3px; transition:width .5s; }
+
+/* Tableau */
+.assid-table-wrap { overflow-x:auto; }
+.assid-table { width:100%; border-collapse:collapse; font-size:.75rem; }
+.assid-table th { text-align:left; padding:10px 14px; font-family:'Cinzel',serif; font-size:.58rem; letter-spacing:.15em; color:var(--gold-main); border-bottom:1px solid rgba(201,168,76,.2); }
+.assid-table td { padding:11px 14px; border-bottom:1px solid var(--border-color); vertical-align:middle; color:var(--text-secondary); }
+.assid-table tbody tr:hover { background:rgba(201,168,76,.03); }
+.assid-table tbody tr:last-child td { border-bottom:none; }
+
+/* Séances */
+.assid-seances-list { display:flex; flex-direction:column; gap:10px; }
+.assid-seance-item { display:flex; align-items:center; gap:14px; padding:16px; background:var(--bg-hover); border:1px solid var(--border-color); border-radius:12px; transition:all .2s; }
+.assid-seance-item:hover { border-color:rgba(201,168,76,.25); }
+.assid-seance-icon { font-size:1.6rem; flex-shrink:0; width:42px; text-align:center; }
+.assid-seance-info { flex:1; min-width:0; }
+.assid-seance-titre { font-size:.85rem; font-weight:700; color:var(--text-primary); margin-bottom:4px; }
+.assid-seance-meta { display:flex; gap:8px; flex-wrap:wrap; font-size:.68rem; color:var(--text-muted); margin-bottom:6px; }
+.assid-seance-type-badge { background:rgba(201,168,76,.1); color:var(--gold-main); border:1px solid rgba(201,168,76,.2); border-radius:4px; padding:1px 7px; font-weight:700; }
+.assid-seance-prog { display:flex; align-items:center; gap:10px; }
+.assid-seance-prog-bar { flex:1; max-width:120px; height:5px; background:var(--border-color); border-radius:3px; overflow:hidden; }
+.assid-seance-prog-bar div { height:100%; border-radius:3px; transition:width .5s; }
+.assid-seance-actions { display:flex; gap:8px; flex-shrink:0; }
+.assid-btn-point { background:rgba(201,168,76,.1); border:1px solid rgba(201,168,76,.35); color:var(--gold-bright); border-radius:7px; padding:7px 14px; font-size:.75rem; font-weight:600; cursor:pointer; transition:all .2s; }
+.assid-btn-point:hover { background:var(--gold-main); color:#0a0b0d; }
+.assid-btn-del { background:none; border:1px solid rgba(239,68,68,.3); color:#f87171; border-radius:7px; padding:7px 10px; cursor:pointer; transition:all .2s; }
+.assid-btn-del:hover { background:rgba(239,68,68,.15); }
+
+/* Modal */
+.assid-overlay { position:fixed; inset:0; background:rgba(0,0,0,.75); backdrop-filter:blur(6px); z-index:1000; display:flex; align-items:center; justify-content:center; padding:20px; }
+.assid-modal { background:var(--bg-panel); border:1px solid rgba(201,168,76,.2); border-radius:16px; width:100%; max-width:520px; box-shadow:0 24px 80px rgba(0,0,0,.6); max-height:90vh; display:flex; flex-direction:column; overflow:hidden; }
+.assid-modal-lg { max-width:680px; }
+.assid-modal-header { padding:20px 24px 16px; border-bottom:1px solid var(--border-color); display:flex; align-items:center; justify-content:space-between; flex-shrink:0; font-family:'Cinzel',serif; font-size:.8rem; letter-spacing:.15em; color:var(--gold-bright); }
+.assid-modal-close { background:none; border:none; color:var(--text-muted); cursor:pointer; font-size:1.1rem; width:28px; height:28px; display:flex; align-items:center; justify-content:center; border-radius:6px; transition:all .2s; }
+.assid-modal-close:hover { background:var(--border-color); color:var(--text-primary); }
+.assid-modal-body { padding:22px 24px; overflow-y:auto; flex:1; display:flex; flex-direction:column; gap:14px; }
+.assid-modal-footer { padding:14px 24px; border-top:1px solid var(--border-color); display:flex; gap:10px; justify-content:flex-end; flex-shrink:0; }
+.assid-field { display:flex; flex-direction:column; gap:5px; }
+.assid-field label { font-size:.62rem; letter-spacing:.15em; color:var(--text-muted); text-transform:uppercase; }
+.assid-field-row { display:grid; grid-template-columns:1fr 1fr; gap:12px; }
+.assid-input { background:var(--bg-hover); border:1px solid var(--border-color); border-radius:8px; padding:9px 13px; color:var(--text-primary); font-size:.78rem; outline:none; transition:border-color .2s; width:100%; font-family:inherit; box-sizing:border-box; }
+.assid-input:focus { border-color:rgba(201,168,76,.35); }
+.assid-input option { background:var(--bg-panel); }
+.assid-btn-cancel { background:var(--bg-subtle); border:1px solid var(--border-color); border-radius:8px; color:var(--text-muted); cursor:pointer; font-size:.7rem; padding:9px 16px; transition:all .2s; }
+.assid-btn-confirm { background:linear-gradient(135deg,var(--gold-main),#a8732a); border:none; border-radius:8px; color:#0a0b0d; font-family:'Cinzel',serif; font-size:.7rem; font-weight:700; letter-spacing:.1em; padding:9px 20px; cursor:pointer; transition:all .2s; }
+.assid-btn-confirm:hover { transform:translateY(-1px); box-shadow:0 6px 20px rgba(201,168,76,.3); }
+.assid-btn-confirm:disabled { opacity:.5; cursor:not-allowed; transform:none; }
+
+/* Pointage */
+.assid-quick-btns { display:flex; align-items:center; gap:8px; flex-wrap:wrap; padding:10px; background:var(--bg-hover); border-radius:10px; }
+.assid-quick-btn { background:none; border:1px solid; border-radius:6px; padding:4px 10px; font-size:.7rem; font-weight:700; cursor:pointer; transition:all .2s; }
+.assid-quick-btn:hover { opacity:.8; }
+.assid-pointage-list { display:flex; flex-direction:column; gap:6px; max-height:50vh; overflow-y:auto; }
+.assid-pointage-row { display:flex; align-items:center; gap:12px; padding:10px 14px; border:1px solid; border-radius:10px; transition:all .15s; }
+.assid-pointage-name { flex:1; font-size:.8rem; }
+.assid-pointage-btns { display:flex; gap:5px; flex-shrink:0; }
+.assid-pres-btn { border:1px solid; border-radius:6px; padding:4px 10px; font-size:.68rem; font-weight:700; cursor:pointer; background:transparent; transition:all .15s; }
+.assid-pres-btn.active { color:#fff !important; }
+.assid-pres-btn:hover { opacity:.85; }
+
+/* Toast */
+.assid-toast { position:fixed; bottom:28px; right:28px; z-index:2000; background:var(--bg-panel); border:1px solid rgba(201,168,76,.3); border-radius:10px; padding:13px 20px; font-size:.78rem; color:var(--text-primary); box-shadow:0 8px 32px rgba(0,0,0,.5); animation:assid-toast-in .3s ease; }
+@keyframes assid-toast-in { from{opacity:0;transform:translateY(10px)} to{opacity:1;transform:translateY(0)} }
+
+/* Empty */
+.assid-empty { text-align:center; padding:40px 20px; color:var(--text-muted); font-size:.8rem; display:flex; flex-direction:column; align-items:center; gap:10px; }
+
+@media (max-width:900px) { .assid-kpis { grid-template-columns:repeat(2,1fr); } }
+@media (max-width:600px) { .assid-page { padding:16px; } .assid-kpis { grid-template-columns:1fr 1fr; } }

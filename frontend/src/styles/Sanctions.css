@@ -1,0 +1,79 @@
+.sanc-page{padding:32px}
+.sanc-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:28px}
+.sanc-title{font-family:var(--font-display);font-size:2rem;color:var(--gold-bright);letter-spacing:.1em}
+.sanc-sub{color:var(--text-muted);font-size:.85rem;margin-top:4px}
+.sanc-btn-primary{background:#ef4444;color:var(--text-primary);border:none;padding:10px 22px;border-radius:6px;font-weight:700;font-size:.82rem;cursor:pointer;transition:all .2s;white-space:nowrap}
+.sanc-btn-primary:hover{background:#dc2626;transform:translateY(-1px)}
+
+/* Stats */
+.sanc-stats-row{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:14px;margin-bottom:24px}
+.sanc-stat-card{background:var(--bg-card);border:1px solid;border-radius:12px;padding:18px;text-align:center;transition:transform .2s}
+.sanc-stat-card:hover{transform:translateY(-2px)}
+.sanc-stat-val{font-size:2rem;font-weight:800;font-family:var(--font-display)}
+.sanc-stat-label{font-size:.68rem;color:var(--text-muted);margin-top:6px;text-transform:uppercase;letter-spacing:.08em}
+
+/* Top sanctionnés */
+.sanc-top-wrap{background:var(--bg-card);border:1px solid rgba(239,68,68,.2);border-radius:12px;padding:18px 20px;margin-bottom:24px}
+.sanc-top-title{font-size:.7rem;font-weight:700;letter-spacing:.15em;text-transform:uppercase;color:#ef4444;margin-bottom:14px}
+.sanc-top-list{display:flex;flex-direction:column;gap:6px}
+.sanc-top-row{display:flex;align-items:center;justify-content:space-between;padding:10px 14px;background:var(--bg-hover);border-radius:8px;border:1px solid var(--bg-subtle)}
+.sanc-top-info{display:flex;flex-direction:column;gap:2px}
+.sanc-top-name{font-weight:600;color:var(--text-primary);font-size:.88rem}
+.sanc-top-meta{font-size:.72rem;color:var(--text-muted)}
+.sanc-top-counts{display:flex;gap:8px;align-items:center}
+.sanc-count-total{font-size:.78rem;color:var(--text-muted);font-weight:600}
+.sanc-count-grave{font-size:.72rem;background:rgba(239,68,68,.15);color:#ef4444;padding:2px 8px;border-radius:10px;font-weight:700}
+
+/* Toolbar */
+.sanc-toolbar{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:20px;align-items:center}
+.sanc-clear-btn{background:var(--bg-subtle);border:1px solid rgba(255,255,255,.12);color:var(--text-muted);padding:9px 14px;border-radius:6px;font-size:.78rem;cursor:pointer;transition:all .2s;white-space:nowrap}
+.sanc-clear-btn:hover{color:#ef4444;border-color:rgba(239,68,68,.4)}
+
+/* Badge */
+.sanc-badge{display:inline-flex;align-items:center;gap:4px;padding:3px 10px;border-radius:20px;font-size:.7rem;font-weight:700;border:1px solid;white-space:nowrap}
+
+/* Liste */
+.sanc-list{display:flex;flex-direction:column;gap:10px}
+.sanc-card{display:flex;align-items:stretch;background:var(--bg-card);border:1px solid var(--border-color);border-radius:12px;overflow:hidden;transition:transform .2s,border-color .2s}
+.sanc-card:hover{transform:translateY(-2px);border-color:rgba(255,255,255,.14)}
+.sanc-card.sanc-grave{border-color:rgba(239,68,68,.2)}
+.sanc-card.sanc-moyenne{border-color:rgba(249,115,22,.15)}
+.sanc-card.sanc-mineure{border-color:rgba(245,158,11,.12)}
+.sanc-card-sev-bar{width:4px;flex-shrink:0}
+.sanc-card-body{flex:1;padding:16px 18px}
+.sanc-card-top{display:flex;align-items:center;gap:16px;flex-wrap:wrap;margin-bottom:8px}
+.sanc-card-soldier{display:flex;flex-direction:column;flex:1;min-width:140px}
+.sanc-card-name{font-weight:700;color:var(--text-primary);font-size:.92rem}
+.sanc-card-meta{font-size:.72rem;color:var(--text-muted);margin-top:1px}
+.sanc-card-mid{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+.sanc-card-type{font-size:.75rem;color:var(--text-muted);background:var(--bg-subtle);padding:3px 10px;border-radius:6px}
+.sanc-card-date{font-size:.75rem;color:var(--text-muted);white-space:nowrap;margin-left:auto}
+.sanc-card-motif{font-size:.82rem;color:var(--text-secondary);line-height:1.5;padding:8px 12px;background:var(--bg-hover);border-radius:6px;border-left:2px solid var(--border-color)}
+.sanc-card-by{font-size:.7rem;color:var(--text-muted);margin-top:6px}
+.sanc-delete-btn{background:transparent;border:none;color:var(--text-muted);padding:0 16px;cursor:pointer;font-size:1rem;transition:all .2s;flex-shrink:0;border-left:1px solid var(--bg-subtle)}
+.sanc-delete-btn:hover{background:rgba(239,68,68,.1);color:#ef4444}
+
+/* Formulaire */
+.sanc-form{display:flex;flex-direction:column;gap:0}
+.sanc-section{font-size:.62rem;font-weight:700;letter-spacing:.18em;color:var(--gold-main);text-transform:uppercase;padding:6px 0 8px;margin:14px 0 10px;border-bottom:1px solid rgba(201,168,76,.2)}
+.sanc-error{background:rgba(239,68,68,.1);border:1px solid rgba(239,68,68,.35);color:#ef4444;padding:10px 14px;border-radius:6px;font-size:.82rem;margin-bottom:12px}
+.sanc-row{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.sanc-sev-btns{display:flex;gap:6px;flex-wrap:wrap}
+.sanc-sev-btn{background:var(--bg-subtle);border:1px solid var(--border-light);color:var(--text-muted);padding:7px 12px;border-radius:8px;font-size:.75rem;font-weight:600;cursor:pointer;transition:all .2s}
+.sanc-sev-btn:hover{background:var(--border-color)}
+.sanc-textarea{resize:vertical;min-height:80px}
+.sanc-input{background:var(--bg-subtle);border:1px solid var(--border-light);color:var(--text-primary);padding:9px 12px;border-radius:6px;font-size:.85rem;outline:none;width:100%;transition:border .2s}
+.sanc-input:focus{border-color:var(--gold-dim)}
+
+/* Liste soldats dans le formulaire */
+.sanc-soldier-list{max-height:200px;overflow-y:auto;border:1px solid var(--border-color);border-radius:8px;margin-bottom:4px}
+.sanc-soldier-row{display:flex;align-items:center;gap:10px;padding:10px 12px;cursor:pointer;transition:background .15s;border-bottom:1px solid var(--bg-hover)}
+.sanc-soldier-row:last-child{border-bottom:none}
+.sanc-soldier-row:hover{background:var(--bg-hover)}
+.sanc-soldier-row.selected{background:rgba(239,68,68,.08);border-color:rgba(239,68,68,.15)}
+.sanc-soldier-avatar{width:30px;height:30px;border-radius:50%;background:linear-gradient(135deg,var(--gold-dim),var(--gold-main));display:flex;align-items:center;justify-content:center;font-weight:800;font-size:.72rem;color:var(--text-on-gold);flex-shrink:0}
+.sanc-soldier-info{flex:1;display:flex;flex-direction:column;gap:1px}
+.sanc-soldier-name{font-size:.85rem;font-weight:600;color:var(--text-primary)}
+.sanc-soldier-meta{font-size:.7rem;color:var(--text-muted)}
+.sanc-selected-check{color:#ef4444;font-weight:800;font-size:1rem}
+.sanc-no-result{padding:20px;text-align:center;color:var(--text-muted);font-size:.82rem}

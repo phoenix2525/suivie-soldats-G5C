@@ -1,0 +1,440 @@
+import { useState, useEffect, useCallback, useRef } from 'react';
+import axios from 'axios';
+import '../styles/Soldiers.css';
+
+const API_BASE = 'http://localhost:5000/api';
+const getApi = () => axios.create({
+  baseURL: API_BASE,
+  headers: { Authorization: `Bearer ${localStorage.getItem('token')}` }
+});
+
+const GRADES   = ['Soldat','Caporal','Caporal-Chef','Sergent','Sergent-Chef','Adjudant','Adjudant-Chef','Sous-Lieutenant','Lieutenant','Capitaine'];
+const UFRS     = ['Lettres et Sciences Humaines','Sciences Appliquées et de Technologie','Sciences Juridiques et Politiques','Sciences Économiques et de Gestion','Sciences de la Santé','Sciences Agronomiques, d\'Aquaculture et de Technologie Alimentaire','Civilisations, Religions, Arts et Communication','Sciences de l\'Éducation, de la Formation et du Sport'];
+const ANNEES   = ['L1','L2','L3','M1','M2','Doctorat'];
+const VILLAGES = ['A','B','C','D','E','F','G','H','Ancien Village','Hors campus'];
+
+// Composant Field défini à l'extérieur pour rester stable entre les rendus
+const Field = ({ label, err, hint, children }) => (
+  <div className="sf-field">
+    <label className="sf-label">{label}</label>
+    {children}
+    {err  && <span className="sf-field-error">{err}</span>}
+    {hint && !err && <span className="sf-field-hint">{hint}</span>}
+  </div>
+);
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   SOLDIER FORM — défini au niveau MODULE (jamais recréé → focus stable)
+═══════════════════════════════════════════════════════════════════════════ */
+const SoldierForm = ({ initial, onSave, onCancel }) => {
+  const EMPTY = {
+    prenom:'', nom:'', grade:'Soldat', promotion:'',
+    date_integration:'', date_naissance:'', lieu_naissance:'',
+    ufr:'', departement:'', annee_etude:'L1', matricule_etudiant:'',
+    village:'', batiment:'', numero_chambre:'',
+    telephone:'+221 ', email:'', photo_url:'',
+  };
+
+  const [form,    setForm]    = useState(() => initial ? {...EMPTY, ...initial} : EMPTY);
+  const [saving,  setSaving]  = useState(false);
+  const [errors,  setErrors]  = useState({});
+  const [apiErr,  setApiErr]  = useState('');
+  const [preview, setPreview] = useState(initial?.photo_url || '');
+  const fileRef = useRef();
+
+  // useRef pour éviter que les callbacks soient la cause de re-render
+  const formRef = useRef(form);
+  formRef.current = form;
+
+  const set = useCallback((key, val) => {
+    setForm(prev => ({ ...prev, [key]: val }));
+    setErrors(prev => ({ ...prev, [key]: '' }));
+  }, []);
+
+  const handlePhoto = useCallback((e) => {
+    const file = e.target.files[0];
+    if (!file) return;
+    if (file.size > 2 * 1024 * 1024) {
+      setErrors(prev => ({ ...prev, photo: 'Photo trop lourde (max 2 Mo)' }));
+      return;
+    }
+    const reader = new FileReader();
+    reader.onload = (ev) => {
+      const b64 = ev.target.result;
+      setPreview(b64);
+      setForm(prev => ({ ...prev, photo_url: b64 }));
+    };
+    reader.readAsDataURL(file);
+  }, []);
+
+  const handlePhone = useCallback((raw) => {
+    let digits = raw.replace(/\D/g, '');
+    if (!digits.startsWith('221')) digits = '221' + digits.replace(/^221/, '');
+    digits = digits.slice(0, 12);
+    let f = '+';
+    if (digits.length > 0)  f += digits.slice(0,3);
+    if (digits.length > 3)  f += ' ' + digits.slice(3,5);
+    if (digits.length > 5)  f += ' ' + digits.slice(5,8);
+    if (digits.length > 8)  f += ' ' + digits.slice(8,10);
+    if (digits.length > 10) f += ' ' + digits.slice(10,12);
+    set('telephone', f);
+  }, [set]);
+
+  const validate = useCallback(() => {
+    const f = formRef.current;
+    const e = {};
+    if (!f.prenom.trim())    e.prenom    = 'Prénom obligatoire';
+    if (!f.nom.trim())       e.nom       = 'Nom obligatoire';
+    if (!f.promotion.trim()) e.promotion = 'Promotion obligatoire';
+    if (!f.date_integration) e.date_integration = 'Date obligatoire';
+    if (f.telephone && f.telephone !== '+221 ') {
+      const d = f.telephone.replace(/\D/g,'');
+      if (!d.startsWith('221') || d.length !== 12)
+        e.telephone = 'Format invalide — ex: +221 77 123 45 67';
+    }
+    if (f.email && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(f.email))
+      e.email = 'Email invalide';
+    if (f.matricule_etudiant && !/^[A-Z]\d{2}\s?\d{4}$/i.test(f.matricule_etudiant.trim()))
+      e.matricule_etudiant = 'Format attendu : P34 2219';
+    return e;
+  }, []);
+
+  const handleSubmit = useCallback(async (ev) => {
+    ev.preventDefault();
+    const e = validate();
+    if (Object.keys(e).length) { setErrors(e); return; }
+    setSaving(true); setApiErr('');
+    try {
+      const payload = { ...formRef.current };
+      if (payload.telephone === '+221 ') payload.telephone = '';
+      await onSave(payload);
+    } catch (err) {
+      setApiErr(err.response?.data?.error || 'Erreur lors de la sauvegarde');
+      setSaving(false);
+    }
+  }, [validate, onSave]);
+
+  const initials = (form.prenom[0] || '?') + (form.nom[0] || '');
+
+  return (
+    <form onSubmit={handleSubmit} className="soldier-form" noValidate>
+      {apiErr && <div className="sf-api-error">{apiErr}</div>}
+
+      {/* ── Photo de profil ── */}
+      <div className="sf-photo-row">
+        <div className="sf-photo-wrap" onClick={() => fileRef.current.click()}>
+          {preview
+            ? <img src={preview} alt="Photo" className="sf-photo-img" />
+            : <div className="sf-photo-placeholder">
+                <span className="sf-photo-initials">{initials}</span>
+                <span className="sf-photo-hint-text">Cliquer pour ajouter une photo</span>
+              </div>
+          }
+          <div className="sf-photo-overlay">
+            <span>📷 Modifier</span>
+          </div>
+        </div>
+        <input ref={fileRef} type="file" accept="image/*" style={{display:'none'}} onChange={handlePhoto} />
+        {errors.photo && <span className="sf-field-error">{errors.photo}</span>}
+        <div className="sf-photo-info">
+          <p>Photo de profil du soldat</p>
+          <p>Format JPG ou PNG, max 2 Mo</p>
+        </div>
+      </div>
+
+      <div className="sf-section">▸ Identité</div>
+      <div className="sf-row">
+        <Field label="Prénom *" err={errors.prenom}>
+          <input className={`sf-input${errors.prenom?' sf-err':''}`}
+            value={form.prenom} onChange={e=>set('prenom',e.target.value)} />
+        </Field>
+        <Field label="Nom *" err={errors.nom}>
+          <input className={`sf-input${errors.nom?' sf-err':''}`}
+            value={form.nom} onChange={e=>set('nom',e.target.value)} />
+        </Field>
+      </div>
+      <div className="sf-row">
+        <Field label="Grade">
+          <select className="sf-input" value={form.grade} onChange={e=>set('grade',e.target.value)}>
+            {GRADES.map(g=><option key={g}>{g}</option>)}
+          </select>
+        </Field>
+        <Field label="Promotion *" err={errors.promotion}>
+          <input className={`sf-input${errors.promotion?' sf-err':''}`}
+            placeholder="Ex: 34" value={form.promotion}
+            onChange={e=>set('promotion',e.target.value)} />
+        </Field>
+      </div>
+      <div className="sf-row">
+        <Field label="Date d'intégration *" err={errors.date_integration}>
+          <input type="date" className={`sf-input${errors.date_integration?' sf-err':''}`}
+            value={form.date_integration} onChange={e=>set('date_integration',e.target.value)} />
+        </Field>
+        <Field label="Date de naissance">
+          <input type="date" className="sf-input"
+            value={form.date_naissance} onChange={e=>set('date_naissance',e.target.value)} />
+        </Field>
+      </div>
+      <Field label="Lieu de naissance">
+        <input className="sf-input" placeholder="Ex: Dakar"
+          value={form.lieu_naissance} onChange={e=>set('lieu_naissance',e.target.value)} />
+      </Field>
+
+      <div className="sf-section">▸ Scolarité</div>
+      <div className="sf-row">
+        <Field label="UFR">
+          <select className="sf-input" value={form.ufr} onChange={e=>set('ufr',e.target.value)}>
+            <option value="">— Sélectionner —</option>
+            {UFRS.map(u=><option key={u}>{u}</option>)}
+          </select>
+        </Field>
+        <Field label="Département">
+          <input className="sf-input" placeholder="Ex: Informatique"
+            value={form.departement} onChange={e=>set('departement',e.target.value)} />
+        </Field>
+      </div>
+      <div className="sf-row">
+        <Field label="Année d'étude">
+          <select className="sf-input" value={form.annee_etude} onChange={e=>set('annee_etude',e.target.value)}>
+            {ANNEES.map(a=><option key={a}>{a}</option>)}
+          </select>
+        </Field>
+        <Field label="Code étudiant" err={errors.matricule_etudiant}>
+          <input className={`sf-input${errors.matricule_etudiant?' sf-err':''}`}
+            placeholder="Ex: P34 2219" value={form.matricule_etudiant}
+            onChange={e=>set('matricule_etudiant',e.target.value.toUpperCase())} />
+        </Field>
+      </div>
+
+      <div className="sf-section">▸ Résidence</div>
+      <div className="sf-row sf-row-3">
+        <Field label="Village / Résidence">
+          <select className="sf-input" value={form.village} onChange={e=>set('village',e.target.value)}>
+            <option value="">— Sélectionner —</option>
+            {VILLAGES.map(v=><option key={v} value={v}>{v==='Hors campus'?'Hors campus':v==='Ancien Village'?'Ancien Village':'Village '+v}</option>)}
+          </select>
+        </Field>
+        {form.village && form.village !== 'Hors campus' && <>
+          <Field label="Bâtiment (G ou Bloc)">
+            <input className="sf-input" placeholder="Ex: G3 ou Bloc B"
+              value={form.batiment} onChange={e=>set('batiment',e.target.value)} />
+          </Field>
+          <Field label="N° Chambre">
+            <input className="sf-input" placeholder="Ex: 105"
+              value={form.numero_chambre} onChange={e=>set('numero_chambre',e.target.value)} />
+          </Field>
+        </>}
+      </div>
+      {form.village === 'Hors campus' && (
+        <Field label="Adresse complète (hors campus)">
+          <input className="sf-input" placeholder="Ex: Rue 12, Ndiolofène, Saint-Louis"
+            value={form.adresse||''} onChange={e=>set('adresse',e.target.value)} />
+        </Field>
+      )}
+
+      <div className="sf-section">▸ Contact</div>
+      <div className="sf-row">
+        <Field label="Téléphone" err={errors.telephone} hint="+221 77/78/76/70 — 9 chiffres">
+          <input className={`sf-input${errors.telephone?' sf-err':''}`}
+            value={form.telephone} onChange={e=>handlePhone(e.target.value)} />
+        </Field>
+        <Field label="Email" err={errors.email}>
+          <input type="email" className={`sf-input${errors.email?' sf-err':''}`}
+            placeholder="exemple@ugb.edu.sn"
+            value={form.email} onChange={e=>set('email',e.target.value)} />
+        </Field>
+      </div>
+
+      <div className="sf-actions">
+        <button type="button" className="sf-btn-cancel" onClick={onCancel}>Annuler</button>
+        <button type="submit" className="sf-btn-save" disabled={saving}>
+          {saving ? '⏳ Enregistrement…' : '✓ Enregistrer le soldat'}
+        </button>
+      </div>
+    </form>
+  );
+};
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   COMPOSANT PRINCIPAL
+═══════════════════════════════════════════════════════════════════════════ */
+export default function Soldiers() {
+  const [soldiers,    setSoldiers]    = useState([]);
+  const [filtered,    setFiltered]    = useState([]);
+  const [loading,     setLoading]     = useState(true);
+  const [search,      setSearch]      = useState('');
+  const [filterGrade, setFilterGrade] = useState('');
+  const [showForm,    setShowForm]    = useState(false);
+  const [selected,    setSelected]    = useState(null);
+  const [viewMode,    setViewMode]    = useState('table');
+
+  const fetchSoldiers = useCallback(async () => {
+    try {
+      setLoading(true);
+      const { data } = await getApi().get('/soldiers');
+      setSoldiers(data.data || []);
+    } catch { setSoldiers([]); }
+    finally  { setLoading(false); }
+  }, []);
+
+  useEffect(() => { fetchSoldiers(); }, [fetchSoldiers]);
+
+  useEffect(() => {
+    let list = [...soldiers];
+    if (search)      list = list.filter(s =>
+      `${s.nom} ${s.prenom} ${s.matricule}`.toLowerCase().includes(search.toLowerCase()));
+    if (filterGrade) list = list.filter(s => s.grade === filterGrade);
+    setFiltered(list);
+  }, [search, filterGrade, soldiers]);
+
+  const openAdd   = useCallback(() => { setSelected(null); setShowForm(true); }, []);
+  const openEdit  = useCallback((s) => { setSelected(s);   setShowForm(true); }, []);
+  const closeForm = useCallback(() => { setSelected(null); setShowForm(false); }, []);
+
+  const handleSave = useCallback(async (payload) => {
+    if (payload.id) await getApi().put(`/soldiers/${payload.id}`, payload);
+    else            await getApi().post('/soldiers', payload);
+    closeForm();
+    fetchSoldiers();
+  }, [closeForm, fetchSoldiers]);
+
+  const handleDelete = useCallback(async (id) => {
+    if (!window.confirm('Supprimer ce soldat ?')) return;
+    await getApi().delete(`/soldiers/${id}`);
+    fetchSoldiers();
+  }, [fetchSoldiers]);
+
+  const Avatar = ({ s, size = 36 }) => (
+    s?.photo_url
+      ? <img src={s.photo_url} alt={s.nom_complet} className="sol-avatar-img" style={{width:size,height:size}} />
+      : <div className="sol-avatar" style={{width:size,height:size,fontSize:size*0.35}}>
+          {(s?.prenom?.[0]||'?')+(s?.nom?.[0]||'')}
+        </div>
+  );
+
+  return (
+    <div className="soldiers-page">
+
+      {/* En-tête */}
+      <div className="soldiers-header">
+        <div>
+          <h1 className="soldiers-title">Effectifs</h1>
+          <p className="soldiers-count">
+            {soldiers.length} soldat{soldiers.length !== 1 ? 's' : ''} enregistré{soldiers.length !== 1 ? 's' : ''}
+          </p>
+        </div>
+        <button className="sol-btn-primary" onClick={openAdd}>＋ Enrôler un soldat</button>
+      </div>
+
+      {/* Filtres */}
+      <div className="sol-toolbar">
+        <div className="sol-search-wrap">
+          <span className="sol-search-icon">⌕</span>
+          <input className="sol-search" placeholder="Rechercher par nom, prénom, matricule…"
+            value={search} onChange={e=>setSearch(e.target.value)} />
+        </div>
+        <select className="sol-select" value={filterGrade} onChange={e=>setFilterGrade(e.target.value)}>
+          <option value="">Tous les grades</option>
+          {GRADES.map(g=><option key={g}>{g}</option>)}
+        </select>
+        <div className="sol-view-toggle">
+          <button className={viewMode==='table'?'active':''} onClick={()=>setViewMode('table')}>
+            ☰ Liste
+          </button>
+          <button className={viewMode==='grid'?'active':''} onClick={()=>setViewMode('grid')}>
+            ⊞ Grille
+          </button>
+        </div>
+      </div>
+
+      {/* Modal */}
+      {showForm && (
+        <div className="sol-overlay" onClick={e=>{ if(e.target===e.currentTarget) closeForm(); }}>
+          <div className="sol-modal">
+            <div className="sol-modal-header">
+              <span>{selected ? 'Modifier le soldat' : 'Enrôler un nouveau soldat'}</span>
+              <button className="sol-modal-close" onClick={closeForm}>✕</button>
+            </div>
+            <div className="sol-modal-body">
+              <SoldierForm
+                key={selected?.id ?? 'new'}
+                initial={selected}
+                onSave={handleSave}
+                onCancel={closeForm}
+              />
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Contenu */}
+      {loading ? (
+        <div className="sol-loading">Chargement des effectifs…</div>
+      ) : filtered.length === 0 ? (
+        <div className="sol-empty">
+          <div className="sol-empty-icon">◈</div>
+          <p>Aucun soldat trouvé</p>
+          <button className="sol-btn-primary" onClick={openAdd}>Enrôler le premier soldat</button>
+        </div>
+      ) : viewMode === 'table' ? (
+        <div className="sol-table-wrap">
+          <table className="sol-table">
+            <thead><tr>
+              <th>Photo</th><th>Matricule</th><th>Nom complet</th><th>Grade</th>
+              <th>Promotion</th><th>UFR / Année</th><th>Résidence</th><th>Statut</th><th>Actions</th>
+            </tr></thead>
+            <tbody>
+              {filtered.map(s => (
+                <tr key={s.id}>
+                  <td><Avatar s={s} size={34} /></td>
+                  <td><span className="sol-matricule">{s.matricule}</span></td>
+                  <td>
+                    <strong>{s.nom_complet}</strong>
+                    {s.matricule_etudiant && <div className="sol-code-etu">{s.matricule_etudiant}</div>}
+                  </td>
+                  <td>{s.grade}</td>
+                  <td>Promo {s.promotion}</td>
+                  <td>{s.ufr ? `${({'Lettres et Sciences Humaines':'LSH','Sciences Appliquées et de Technologie':'SAT','Sciences Juridiques et Politiques':'SJP','Sciences Économiques et de Gestion':'SEG','Sciences de la Santé':'2S',"Sciences Agronomiques, d'Aquaculture et de Technologie Alimentaire":'SAATA','Civilisations, Religions, Arts et Communication':'CRAC',"Sciences de l'Éducation, de la Formation et du Sport":'SEFS'})[s.ufr] || s.ufr.split(' ')[0]} · ${s.annee_etude}` : s.annee_etude || '—'}</td>
+                  <td>{s.village ? `Vill.${s.village}${s.batiment?' · '+s.batiment:''}${s.numero_chambre?' Ch.'+s.numero_chambre:''}` : '—'}</td>
+                  <td><span className={`sol-status sol-status-${s.statut}`}>{s.statut}</span></td>
+                  <td>
+                    <div className="sol-actions-cell">
+                      <button className="sol-icon-btn" title="Modifier" onClick={()=>openEdit(s)}>✏</button>
+                      <button className="sol-icon-btn sol-icon-danger" title="Supprimer" onClick={()=>handleDelete(s.id)}>✕</button>
+                    </div>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      ) : (
+        <div className="sol-grid">
+          {filtered.map(s => (
+            <div key={s.id} className="sol-card">
+              <div className="sol-card-top">
+                <Avatar s={s} size={52} />
+                <div className="sol-card-info">
+                  <div className="sol-card-name">{s.nom_complet}</div>
+                  <div className="sol-card-grade">{s.grade} · Promo {s.promotion}</div>
+                  <div className="sol-card-mat">{s.matricule}{s.matricule_etudiant?' · '+s.matricule_etudiant:''}</div>
+                </div>
+                <span className={`sol-status sol-status-${s.statut}`}>{s.statut}</span>
+              </div>
+              <div className="sol-card-details">
+                {s.ufr      && <div><span>UFR</span><span>{({'Lettres et Sciences Humaines':'LSH','Sciences Appliquées et de Technologie':'SAT','Sciences Juridiques et Politiques':'SJP','Sciences Économiques et de Gestion':'SEG','Sciences de la Santé':'2S',"Sciences Agronomiques, d'Aquaculture et de Technologie Alimentaire":'SAATA','Civilisations, Religions, Arts et Communication':'CRAC',"Sciences de l'Éducation, de la Formation et du Sport":'SEFS'})[s.ufr] || s.ufr.split(' ')[0]}</span></div>}
+                {s.annee_etude && <div><span>Année</span><span>{s.annee_etude}</span></div>}
+                {s.village  && <div><span>Résidence</span><span>Vill. {s.village}{s.batiment?' · '+s.batiment:''}</span></div>}
+                {s.telephone && <div><span>Tél.</span><span>{s.telephone}</span></div>}
+              </div>
+              <div className="sol-card-actions">
+                <button className="sol-icon-btn" onClick={()=>openEdit(s)}>✏ Modifier</button>
+                <button className="sol-icon-btn sol-icon-danger" onClick={()=>handleDelete(s.id)}>✕ Supprimer</button>
+              </div>
+            </div>
+          ))}
+        </div>
+      )}
+    </div>
+  );
+}

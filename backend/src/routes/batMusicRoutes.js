@@ -1,0 +1,31 @@
+const express = require('express');
+const router  = express.Router();
+const { protect, authorize } = require('../middleware/auth');
+const { authorizeSection } = require('../middleware/authorizeSection');
+const c = require('../controllers/batMusicController');
+const p = protect, a = authorize('admin','instructeur');
+
+router.get   ('/stats',                    p, a, c.getStats);
+router.get   ('/chansons',                 p, a, c.getChansons);
+router.post  ('/chansons',                 p, a, c.createChanson);
+router.put   ('/chansons/:id',             p, a, c.updateChanson);
+router.delete('/chansons/:id',             p, a, c.deleteChanson);
+router.get   ('/playlists',                p, a, c.getPlaylists);
+router.get   ('/playlists/:id',            p, a, c.getPlaylistDetail);
+router.post  ('/playlists',                p, a, c.createPlaylist);
+router.put   ('/playlists/:id',            p, a, c.updatePlaylist);
+router.delete('/playlists/:id',            p, a, c.deletePlaylist);
+router.get   ('/feux',                     p, a, c.getFeuxCamp);
+router.post  ('/feux',                     p, a, c.createFeuCamp);
+router.put   ('/feux/:id',                 p, a, c.updateFeuCamp);
+router.delete('/feux/:id',                 p, a, c.deleteFeuCamp);
+router.get   ('/repetitions',              p, a, c.getRepetitions);
+router.post  ('/repetitions',              p, a, c.createRepetition);
+router.delete('/repetitions/:id',          p, a, c.deleteRepetition);
+router.get   ('/pointage/:type/:id',       p, a, c.getPointage);
+router.post  ('/pointage/:type/:id',       p, a, c.savePointage);
+router.get   ('/membres',                  p, a, c.getMembres);
+router.post  ('/membres',                  p, a, c.addMembre);
+router.delete('/membres/:soldier_id',      p, a, c.removeMembre);
+
+module.exports = router;

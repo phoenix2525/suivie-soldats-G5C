@@ -1,0 +1,129 @@
+/* =====================================================
+   LAYOUT PRINCIPAL
+===================================================== */
+
+.app-layout {
+  display: flex;
+  min-height: 100vh;
+}
+
+.app-main {
+  flex: 1;
+  min-width: 0;
+  background: var(--bg-void);
+  overflow-y: auto;
+}
+
+/* ── NOUVEAU LAYOUT AVEC HEADER ── */
+.app-right {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+}
+
+.app-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 28px;
+  height: 64px;
+  background: var(--bg-panel);
+  border-bottom: 1px solid var(--border-color);
+  flex-shrink: 0;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  backdrop-filter: blur(12px);
+}
+
+/* Ligne déco gold en bas du header */
+.app-header::after {
+  content: '';
+  position: absolute;
+  bottom: 0; left: 0; right: 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(201,168,76,.3), transparent);
+}
+
+.app-header-left {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.app-header-icon {
+  font-size: 1.3rem;
+  opacity: .8;
+}
+
+.app-header-title {
+  font-family: 'Cinzel', serif;
+  font-size: .88rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  letter-spacing: .06em;
+  text-transform: uppercase;
+}
+
+.app-header-date {
+  font-size: .56rem;
+  color: var(--text-muted);
+  letter-spacing: .15em;
+  margin-top: 2px;
+}
+
+.app-header-right {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.app-header-divider {
+  width: 1px;
+  height: 32px;
+  background: var(--border-color);
+}
+
+.app-header-user {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.app-header-avatar {
+  width: 36px;
+  height: 36px;
+  border-radius: 9px;
+  border: 1px solid;
+  background: rgba(201,168,76,.08);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'Cinzel', serif;
+  font-size: .7rem;
+  font-weight: 800;
+  color: var(--gold-bright);
+  flex-shrink: 0;
+}
+
+.app-header-username {
+  font-size: .78rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  font-family: 'Cinzel', serif;
+  letter-spacing: .04em;
+}
+
+.app-header-role {
+  font-size: .58rem;
+  font-weight: 700;
+  letter-spacing: .15em;
+  margin-top: 1px;
+}
+
+.app-main {
+  flex: 1;
+  overflow-y: auto;
+}
