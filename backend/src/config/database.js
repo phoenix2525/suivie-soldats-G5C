@@ -12,13 +12,10 @@ const pool = new Pool(
       }
 );
 
-pool.on('connect', () => console.log('✅ Connecté à PostgreSQL'));
-
 const testConnection = async () => {
   const client = await pool.connect();
   const res = await client.query('SELECT NOW() as current_time');
-  console.log('📊 Requête exécutée: { text: 'SELECT NOW() as current_time', duration: '0ms', rows: 1 }');
-  console.log('🕐 Heure serveur BD:', res.rows[0].current_time);
+  console.log('Heure serveur BD:', res.rows[0].current_time);
   client.release();
 };
 
