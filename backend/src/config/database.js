@@ -20,5 +20,8 @@ const testConnection = async () => {
   return true;
 };
 
+const query = (text, params) => pool.query(text, params);
+
 module.exports = pool;
 module.exports.testConnection = testConnection;
+module.exports.query = query;
