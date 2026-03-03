@@ -15,7 +15,7 @@ export default function useNotifications() {
 
   useEffect(() => {
     fetchOnce();
-    const socket = io('http://localhost:5000', { transports: ['websocket'] });
+    const socket = io(import.meta.env.VITE_API_URL?.replace('/api','') || 'https://g5c-backend.onrender.com', { transports: ['websocket'] });
     socket.on('connect',       () => setConnected(true));
     socket.on('disconnect',    () => setConnected(false));
     socket.on('notifications', (data) => {
