@@ -88,7 +88,7 @@ const login = async (req, res) => {
     console.error('❌ Erreur login:', error);
     res.status(500).json({
       success: false,
-      error: 'Erreur serveur lors de la connexion'
+      error: error.message
     });
   }
 };
