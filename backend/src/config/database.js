@@ -17,6 +17,7 @@ const testConnection = async () => {
   const res = await client.query('SELECT NOW() as current_time');
   console.log('Heure serveur BD:', res.rows[0].current_time);
   client.release();
+  return true;
 };
 
 module.exports = pool;
