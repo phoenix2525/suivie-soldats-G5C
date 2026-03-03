@@ -30,8 +30,7 @@ io.on('connection', (socket) => {
 
 // CORS - Permet au frontend de communiquer avec le backend
 app.use(cors({
-  origin: process.env.NODE_ENV === 'production' 
-    ? 'https://votre-domaine.com'  // En production
+  origin: process.env.FRONTEND_URL || 'https://suivie-soldats-g5c.vercel.app'
     : 'http://localhost:5173',     // En développement (Vite par défaut)
   credentials: true
 }));
