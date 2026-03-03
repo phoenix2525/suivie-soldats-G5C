@@ -30,7 +30,19 @@ io.on('connection', (socket) => {
 
 // CORS - Permet au frontend de communiquer avec le backend
 app.use(cors({
-  origin: process.env.FRONTEND_URL || 'https://suivie-soldats-g5c.vercel.app',
+  origin: function(origin, callback) {
+    const allowed = [
+      'https://suivie-soldats-g5c.vercel.app',
+      'https://suivie-soldats-g5-c.vercel.app',
+      'http://localhost:5173',
+      'http://localhost:3000'
+    ];
+    if (!origin || allowed.includes(origin) || origin.endsWith('.vercel.app')) {
+      callback(null, true);
+    } else {
+      callback(new Error('Not allowed by CORS'));
+    }
+  },
   credentials: true
 }));
 
