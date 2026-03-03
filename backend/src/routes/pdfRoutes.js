@@ -1,7 +1,7 @@
 const express = require('express');
 const router  = express.Router();
 const { protect } = require('../middleware/auth');
-const pool = require('../config/database');
+const { pool } = require('../config/database');
 const pdf  = require('../services/pdfService');
 const nodemailer = require('nodemailer');
 const { emailConvocationCeremonie, emailFeuCamp, emailClassement, emailAnnonce } = require('../services/notificationService');

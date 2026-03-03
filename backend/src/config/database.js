@@ -12,16 +12,14 @@ const pool = new Pool(
       }
 );
 
+const query = (text, params) => pool.query(text, params);
+
 const testConnection = async () => {
   const client = await pool.connect();
-  const res = await client.query('SELECT NOW() as current_time');
-  console.log('Heure serveur BD:', res.rows[0].current_time);
+  const res = await client.query('SELECT NOW()');
+  console.log('DB connectee:', res.rows[0].now);
   client.release();
   return true;
 };
 
-const query = (text, params) => pool.query(text, params);
-
-module.exports = pool;
-module.exports.testConnection = testConnection;
-module.exports.query = query;
+module.exports = { pool, query, testConnection };

@@ -1,4 +1,4 @@
-const pool = require('../config/database');
+const { pool } = require('../config/database');
 const { notifySignalement } = require('../services/notificationService');
 
 const getSignalements = async (req, res) => {

@@ -1,4 +1,4 @@
-const pool = require('../config/database');
+const { pool } = require('../config/database');
 
 // ── Lister tous les CRICs ─────────────────────────────────────────────────
 const getAllCrics = async (req, res) => {

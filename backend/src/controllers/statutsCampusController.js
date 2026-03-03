@@ -1,4 +1,4 @@
-const pool = require('../config/database');
+const { pool } = require('../config/database');
 
 const STATUTS = {
   actif:             { label:'Actif',             color:'#34d399' },

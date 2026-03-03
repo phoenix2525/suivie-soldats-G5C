@@ -1,5 +1,5 @@
 const nodemailer = require('nodemailer');
-const pool = require('../config/database');
+const { pool } = require('../config/database');
 
 let io = null;
 const setIO = (ioInstance) => { io = ioInstance; };
