@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import axios from 'axios';
+import api from '../utils/api';
 import '../styles/Login.css';
 
 const Login = ({ onLogin }) => {
@@ -12,11 +12,13 @@ const Login = ({ onLogin }) => {
     setLoading(true);
     setError('');
     try {
-      const res = await axios.post('https://g5c-backend.onrender.com/api/auth/login', form);
+      const res = await api.post('/auth/login', form);
       if (res.data.success) {
         localStorage.setItem('token', res.data.data.token);
         localStorage.setItem('user', JSON.stringify(res.data.data.user));
         onLogin(res.data.data.user);
+      } else {
+        setError('Identifiants incorrects');
       }
     } catch (err) {
       console.error('Erreur login complète:', err);
@@ -54,13 +56,13 @@ const Login = ({ onLogin }) => {
         {/* Logo / Emblème */}
         <div className="login-emblem">
           <div className="emblem-ring outer-ring">
-<div className="emblem-ring inner-ring">
-  <img
-    src="/logo-g5c.png"
-    alt="Logo Armée du G5C"
-    className="login-logo-img"
-  />
-</div>
+            <div className="emblem-ring inner-ring">
+              <img
+                src="/logo-g5c.png"
+                alt="Logo Armée du G5C"
+                className="login-logo-img"
+              />
+            </div>
           </div>
         </div>
 
@@ -74,11 +76,11 @@ const Login = ({ onLogin }) => {
             <span className="divider-line" />
           </div>
           <p className="login-sub">Université Gaston Berger — Saint-Louis, Sénégal</p>
-            <div className="login-devise">
-  <span>◆</span>
-  <span className="devise-text">XEL · DIOM · FIT</span>
-  <span>◆</span>
-</div>
+          <div className="login-devise">
+            <span>◆</span>
+            <span className="devise-text">XEL · DIOM · FIT</span>
+            <span>◆</span>
+          </div>
           <div className="login-year">Est. 1990</div>
         </div>
 

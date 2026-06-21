@@ -58,7 +58,7 @@ const createCric = async (req, res) => {
         ufr, departement, annee_etude, matricule_etudiant,
         village, batiment, numero_chambre, adresse, notes_generales,
         statut, date_candidature, created_by
-      ) VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,$14,$15,'candidature',CURRENT_DATE,$16)
+      ) VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,$14,$15,$16,'candidature',CURRENT_DATE,$17)
       RETURNING *`,
       [nom, prenom, date_naissance||null, lieu_naissance||null,
        telephone||null, email||null, photo_url||null,

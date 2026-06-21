@@ -197,7 +197,7 @@ const getSoldatsSansPresence = async (req, res) => {
 
   try {
     const result = await query(
-      `SELECT s.id, s.matricule, s.nom, s.prenom, s.grade, s.promotion, s.village, s.pavillon
+      `SELECT s.id, s.matricule, s.nom, s.prenom, s.grade, s.promotion, s.village, s.batiment
        FROM soldiers s
        WHERE s.statut = 'actif'
        AND s.id NOT IN (

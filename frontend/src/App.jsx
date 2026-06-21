@@ -85,12 +85,12 @@ function App() {
               <Route path="sanctions" element={<Sanctions />} />
               <Route path="distinctions" element={<Distinctions />} />
               <Route path="mensurations" element={<Mensurations />} />
-              <Route path="drapeau" element={<SectionDrapeau />} />
               <Route path="drh" element={<DRH />} />
               <Route path="dsa" element={<DSA />} />
               <Route path="dasc" element={<DASC />} />
               <Route path="dcsp" element={<DCSP />} />
               <Route path="dasb" element={<DASB />} />
+              <Route path="gestion-utilisateurs" element={<GestionUtilisateurs />} />
               <Route path="soldats/:id" element={<SoldierProfile />} />
             </Route>
             <Route path="*" element={<Navigate to="/dashboard" />} />

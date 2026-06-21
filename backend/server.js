@@ -37,7 +37,14 @@ app.use(cors({
       'http://localhost:5173',
       'http://localhost:3000'
     ];
-    if (!origin || allowed.includes(origin) || origin.endsWith('.vercel.app')) {
+    // Accepte toutes les URLs Netlify (*.netlify.app) et les domaines personnalisés
+    if (
+      !origin ||
+      allowed.includes(origin) ||
+      origin.endsWith('.vercel.app') ||
+      origin.endsWith('.netlify.app') ||
+      (process.env.FRONTEND_URL && origin === process.env.FRONTEND_URL)
+    ) {
       callback(null, true);
     } else {
       callback(new Error('Not allowed by CORS'));

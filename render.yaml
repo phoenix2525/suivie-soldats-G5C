@@ -1,0 +1,22 @@
+services:
+  - type: web
+    name: g5c-backend
+    runtime: node
+    rootDir: backend
+    buildCommand: npm install
+    startCommand: node server.js
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: PORT
+        value: 10000
+      - key: DATABASE_URL
+        sync: false          # À renseigner manuellement dans le dashboard Render
+      - key: JWT_SECRET
+        sync: false          # À renseigner manuellement dans le dashboard Render
+      - key: FRONTEND_URL
+        sync: false          # À renseigner manuellement (URL Netlify)
+      - key: GMAIL_USER
+        sync: false          # Optionnel : pour les emails
+    healthCheckPath: /
+    autoDeploy: true

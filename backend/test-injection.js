@@ -18,7 +18,7 @@ async function login() {
   try {
     const res = await axios.post(`${API}/auth/login`, {
       username: 'admin',
-      password: 'Admin@G5C-2024'
+      password: 'Admin2024'
     });
     token = res.data.data.token;
     console.log(colors.green + '✅ Connexion réussie' + colors.reset);
@@ -47,7 +47,7 @@ function generateSoldier() {
     departement: faker.person.jobArea(),
     filiere: faker.person.jobType(),
     annee_etude: faker.helpers.arrayElement(['L1', 'L2', 'L3', 'M1', 'M2']),
-    telephone: faker.phone.number('+221 7# ## ## ##'),
+    telephone: '+221 7' + faker.string.numeric(8),
     email: faker.internet.email(),
     adresse: faker.location.streetAddress(),
     village: faker.helpers.arrayElement(['Cité', 'Hors campus', 'Village 1', 'Village 2']),
@@ -69,7 +69,7 @@ function generateCric() {
     departement: faker.person.jobArea(),
     filiere: faker.person.jobType(),
     niveau: faker.helpers.arrayElement(['L1', 'L2', 'L3', 'M1']),
-    telephone: faker.phone.number('+221 7# ## ## ##'),
+    telephone: '+221 7' + faker.string.numeric(8),
     email: faker.internet.email(),
   };
 }
