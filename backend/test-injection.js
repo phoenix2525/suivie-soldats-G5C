@@ -1,5 +1,5 @@
 const axios = require('axios');
-const { faker } = require('@faker-js/faker');
+let faker;
 const API = 'http://localhost:5000/api';
 
 const colors = {
@@ -110,6 +110,8 @@ async function createCrics(n = 3) {
 
 async function run() {
   console.log(colors.yellow + '\n🚀 DÉMARRAGE DES TESTS D\'INJECTION MASSIVE G5C' + colors.reset);
+  const fakerModule = await import('@faker-js/faker');
+  faker = fakerModule.faker;
   await login();
 
   await createSoldiers(5);

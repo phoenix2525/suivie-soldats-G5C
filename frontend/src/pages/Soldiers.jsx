@@ -128,10 +128,6 @@ const SoldierForm = ({ initial, onSave, onCancel }) => {
   const [preview, setPreview] = useState(initial?.photo_url || '');
   const fileRef = useRef();
 
-  // useRef pour éviter que les callbacks soient la cause de re-render
-  const formRef = useRef(form);
-  formRef.current = form;
-
   const set = useCallback((key, val) => {
     setForm(prev => ({ ...prev, [key]: val }));
     setErrors(prev => ({ ...prev, [key]: '' }));
@@ -166,7 +162,7 @@ const SoldierForm = ({ initial, onSave, onCancel }) => {
 
   const handlePhone = useCallback((raw) => {
     let digits = raw.replace(/\D/g, '');
-    if (!digits.startsWith('221')) digits = '221' + digits.replace(/^221/, '');
+    if (digits.startsWith('221')) digits = digits.slice(3);
     digits = digits.slice(0, 12);
     let f = '+';
     if (digits.length > 0)  f += digits.slice(0,3);
@@ -178,7 +174,7 @@ const SoldierForm = ({ initial, onSave, onCancel }) => {
   }, [set]);
 
   const validate = useCallback(() => {
-    const f = formRef.current;
+    const f = form;
     const e = {};
     if (!f.prenom.trim())    e.prenom    = 'Prénom obligatoire';
     if (!f.nom.trim())       e.nom       = 'Nom obligatoire';
@@ -194,7 +190,7 @@ const SoldierForm = ({ initial, onSave, onCancel }) => {
     if (f.matricule_etudiant && !/^[A-Z]\d{2}\s?\d{4}$/i.test(f.matricule_etudiant.trim()))
       e.matricule_etudiant = 'Format attendu : P34 2219';
     return e;
-  }, []);
+  }, [form]);
 
 
 const handleSubmit = useCallback(async (ev) => {
@@ -204,7 +200,7 @@ const handleSubmit = useCallback(async (ev) => {
  return; }
   setSaving(true); setApiErr('');
   try {
-    const payload = { ...formRef.current };
+    const payload = { ...form };
     if (payload.date_naissance === '') payload.date_naissance = null;
     if (payload.date_integration === '') payload.date_integration = null;
     if (payload.telephone === '+221 ') payload.telephone = '';

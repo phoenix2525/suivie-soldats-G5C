@@ -1,16 +1,16 @@
 import { useMemo } from 'react';
 
 const SECTION_PATH_MAP = {
-  'Section Drapeau':     '/drapeau',
-  'Section Caporaux':    '/caporaux',
-  'BAT-MUSIC':           '/bat-music',
-  'Section Restauration':'/restauration',
-  'Section Recrutement': '/recrutement',
-  'DRH':                 '/drh',
-  'DSA':                 '/dsa',
-  'DASC':                '/dasc',
-  'DCSP':                '/dcsp',
-  'DASB':                '/dasb',
+  'drapeau':      '/drapeau',
+  'caporaux':     '/caporaux',
+  'batmusic':     '/bat-music',
+  'restauration': '/restauration',
+  'recrutement':  '/recrutement',
+  'drh':          '/drh',
+  'dsa':          '/dsa',
+  'dasc':         '/dasc',
+  'dcsp':         '/dcsp',
+  'dasb':         '/dasb',
 };
 
 /**
